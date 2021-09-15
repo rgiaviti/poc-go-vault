@@ -2,37 +2,71 @@ package main
 
 import (
 	"fmt"
-	"github.com/hashicorp/vault/api"
+	"poc-go-vault/secret"
 )
 
 func main() {
-	var token = "myroot"
-	var vaultHost = "http://localhost:8200"
-
-	vaultConfig := &api.Config{
-		Address: vaultHost,
-	}
-
-	vaultClient, err := api.NewClient(vaultConfig)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	vaultClient.SetToken(token)
-	secret, err := vaultClient.Logical().Read("secret/data/mytest")
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	m, ok := secret.Data["data"].(map[string]interface{})
-
-	if !ok {
-		fmt.Printf("%T %#v\n", secret.Data["data"], secret.Data["data"])
-		return
-	}
-	fmt.Printf("hello: %v\n", m["nome"])
+	//testReadSecret()
+	testReadSecrets()
+	//testReadAllSecrets()
 }
 
+func testReadAllSecrets() {
+	vault := &secret.Vault{
+		Host:  "http://localhost:8200",
+		Token: "myroot",
+	}
+
+	err := vault.New()
+	if err != nil {
+		return
+	}
+
+	secrets, err := vault.ReadAllSecrets("secret/data/mytest")
+	if err != nil {
+		return
+	}
+
+	fmt.Println(secrets)
+}
+
+func testReadSecrets() {
+	vault := &secret.Vault{
+		Host:  "http://localhost:8200",
+		Token: "myroot",
+	}
+
+	err := vault.New()
+	if err != nil {
+		return
+	}
+
+	keys := []string{"nome", "b"}
+	secrets, err := vault.ReadSecrets(keys, "secret/data/mytest")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(secrets)
+}
+
+func testReadSecret() {
+	vault := &secret.Vault{
+		Host:  "http://localhost:8200",
+		Token: "myroot",
+	}
+
+	err := vault.New()
+	if err != nil {
+		return
+	}
+
+	s, err := vault.ReadSecret("nome", "secret/data/mytest")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(s)
+}
