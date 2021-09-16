@@ -67,7 +67,7 @@ func (v *Vault) ReadAllSecretsAsStringMap(secretPath string) (map[string]string,
 
 func (v *Vault) ReadAllSecrets(secretPath string) (map[string]interface{}, error) {
 	if v.client == nil {
-		return nil, errors.New("vault client not initialized. you should call New() first")
+		return nil, errors.New("vault client not initialized. you should call OpenVault() first")
 	}
 
 	vaultSecrets, err := v.client.Logical().Read(secretPath)

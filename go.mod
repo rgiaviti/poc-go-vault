@@ -1,4 +1,4 @@
-module poc-go-vault
+module github.com/rgiaviti/poc-go-vault
 
 go 1.17
 
