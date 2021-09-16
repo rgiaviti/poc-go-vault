@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/rgiaviti/poc-go-vault/secret"
+	"github.com/rgiaviti/poc-go-vault/serialization"
 	"log"
-	"poc-go-vault/secret"
-	"poc-go-vault/serialization"
 )
 
 /*-----------------------------------------------------------------------------
