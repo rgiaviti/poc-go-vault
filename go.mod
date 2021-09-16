@@ -2,7 +2,10 @@ module poc-go-vault
 
 go 1.17
 
-require github.com/hashicorp/vault/api v1.1.1
+require (
+	github.com/hashicorp/vault/api v1.1.1
+	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+)
 
 require (
 	github.com/cenkalti/backoff/v3 v3.0.0 // indirect

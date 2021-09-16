@@ -16,7 +16,7 @@ type Vault struct {
 	client *api.Client
 }
 
-func (v *Vault) New() error {
+func (v *Vault) OpenVault() error {
 	client, err := api.NewClient(&api.Config{Address: v.Host})
 	if err != nil {
 		return err
@@ -50,6 +50,21 @@ func (v *Vault) ReadSecrets(keys []string, secretPath string) (map[string]string
 	return secretMap, nil
 }
 
+func (v *Vault) ReadAllSecretsAsStringMap(secretPath string) (map[string]string, error) {
+	vaultSecrets, err := v.ReadAllSecrets(secretPath)
+	if err != nil {
+		return nil, err
+	}
+
+	secretMap := make(map[string]string)
+
+	for key, value := range vaultSecrets {
+		secretMap[key] = fmt.Sprintf("%v", value)
+	}
+
+	return secretMap, nil
+}
+
 func (v *Vault) ReadAllSecrets(secretPath string) (map[string]interface{}, error) {
 	if v.client == nil {
 		return nil, errors.New("vault client not initialized. you should call New() first")
@@ -66,3 +81,4 @@ func (v *Vault) ReadAllSecrets(secretPath string) (map[string]interface{}, error
 	}
 	return vaultData, nil
 }
+
