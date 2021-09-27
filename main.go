@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/rgiaviti/poc-go-vault/secret"
 	"github.com/rgiaviti/poc-go-vault/serialization"
 	"log"
@@ -25,6 +26,7 @@ curl --location --request POST 'http://localhost:8200/v1/secret/data/person' \
 --------------------------------------------------------------------------------*/
 
 func main() {
+
 	// SetUp Vault Client
 	vault := &secret.Vault{
 		Host:  "http://localhost:8200",
@@ -51,6 +53,8 @@ func main() {
 		return
 	}
 
+	fmt.Println(secret.HasToken(data))
+
 	// Let's replace all secrets in loaded yaml
 	replacedData, err := secret.ReplaceTokens(secretsMap, data)
 	if err != nil {
@@ -62,7 +66,7 @@ func main() {
 	person, err := serialization.NewPerson(replacedData)
 	if err != nil {
 		log.Fatalf("error: %v", err)
-		return 
+		return
 	}
 
 	println(person.Name)

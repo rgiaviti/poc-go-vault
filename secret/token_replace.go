@@ -2,10 +2,17 @@ package secret
 
 import (
 	"bytes"
+	"regexp"
 	"text/template"
 )
 
 const DefaultTemplateName = "secret-template"
+const TokenPattern = "{{(.*?)}}"
+
+func HasToken(str string) bool {
+	regex, _ := regexp.Compile(TokenPattern)
+	return regex.MatchString(str)
+}
 
 func ReplaceToken(placeholder string, secretValue string, str string) (string, error) {
 	t := template.Must(template.New(DefaultTemplateName).Parse(str))

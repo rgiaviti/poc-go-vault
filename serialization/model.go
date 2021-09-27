@@ -1,10 +1,10 @@
 package serialization
 
 type Person struct {
-	Name string `yaml:"name"`
-	Lastname string `yaml:"lastname"`
-	Age int `yaml:"age"`
-	Hobbies []Hobby `yaml:"hobbies"`
+	Name           string          `yaml:"name"`
+	Lastname       string          `yaml:"lastname"`
+	Age            int             `yaml:"age"`
+	Hobbies        []Hobby         `yaml:"hobbies"`
 	SocialNetworks []SocialNetwork `yaml:"social-networks"`
 }
 
@@ -15,5 +15,5 @@ type Hobby struct {
 
 type SocialNetwork struct {
 	Name string `yaml:"name"`
-	Url string `yaml:"url"`
+	Url  string `yaml:"url"`
 }

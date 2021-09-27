@@ -11,13 +11,14 @@ const (
 )
 
 type Vault struct {
-	Host string
-	Token string
+	Host   string
+	Token  string
 	client *api.Client
 }
 
 func (v *Vault) OpenVault() error {
-	client, err := api.NewClient(&api.Config{Address: v.Host})
+	apiConfig := api.Config{Address: v.Host}
+	client, err := api.NewClient(&apiConfig)
 	if err != nil {
 		return err
 	}
@@ -81,4 +82,3 @@ func (v *Vault) ReadAllSecrets(secretPath string) (map[string]interface{}, error
 	}
 	return vaultData, nil
 }
-
